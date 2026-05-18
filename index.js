@@ -1,4 +1,3 @@
-const { createCanvas } = require("canvas");
 const express = require("express");
 const app = express();
 
@@ -51,37 +50,19 @@ app.get("/:dimensions", (req, res) => {
   const defaultFontSize = Math.min(canvasWidth, canvasHeight) / 8;
   const canvasFontSize = fontSize || defaultFontSize;
 
-  const canvas = createCanvas(canvasWidth, canvasHeight);
-  const ctx = canvas.getContext("2d");
-
-  // Set background color
-  ctx.fillStyle = canvasBackgroundColor;
-  ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
-  // Set text color and font
-  ctx.fillStyle = canvasTextColor;
-  ctx.font = `${canvasFontSize}px "Helvetica Neue", Helvetica, Arial, sans-serif`;
-
-  // Measure text dimensions
-  const textMetrics = ctx.measureText(canvasText);
-  const textWidth = textMetrics.width;
-  const textHeight = canvasFontSize; // Assuming font size is 30px
-
-  // Calculate position for horizontally and vertically centering
-  const x = (canvasWidth - textWidth) / 2;
-  const y = canvasHeight / 2 + textHeight / 2;
-
-  // Draw text
-  ctx.fillText(canvasText, x, y);
-
-  // Convert canvas to buffer
-  const buffer = canvas.toBuffer(`image/png`);
+  // Generate SVG
+  const svg = `
+    <svg width="${canvasWidth}" height="${canvasHeight}" xmlns="http://www.w3.org/2000/svg">
+      <rect width="100%" height="100%" fill="${canvasBackgroundColor}"/>
+      <text x="50%" y="50%" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="${canvasFontSize}" fill="${canvasTextColor}" text-anchor="middle" dominant-baseline="middle">${canvasText}</text>
+    </svg>
+  `.trim();
 
   // Set response content type
-  res.set("Content-Type", `image/png`);
+  res.set("Content-Type", "image/svg+xml");
 
-  // Send the buffer as the response
-  res.send(buffer);
+  // Send the SVG as the response
+  res.send(svg);
 });
 
 app.listen(3000, () => {
