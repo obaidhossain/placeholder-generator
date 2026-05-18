@@ -1,14 +1,16 @@
 {
   "name": "placeholder-image",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A simple Express.js server that generates placeholder images on the fly. Perfect for prototyping web designs, testing layouts, or anytime you need dummy images.",
   "main": "index.js",
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Obaid Hossain",
   "dependencies": {
     "express": "^4.18.3"
   }
