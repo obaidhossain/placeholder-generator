@@ -64,7 +64,7 @@ app.get("/:dimensions", (req, res) => {
   // Send the SVG as the response
   res.send(svg);
 });
-
+// Start the server
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });
